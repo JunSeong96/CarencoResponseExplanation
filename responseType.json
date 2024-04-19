@@ -1,0 +1,5 @@
+{
+    "1": "SUCCESS", "2": "NOT_FOUND", "3": "ALREADY_EXISTS", "4": "REQUIRED",
+    "5": "INVALID", "6": "DENIED", "7": "FAILED", "8": "OCCURRED", "9": "DUPLICATED",
+    "A": "DIFFERENT", "B": "CANT"
+}
