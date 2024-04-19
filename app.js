@@ -35,13 +35,17 @@ document.getElementById('codeForm').addEventListener('submit', function(event) {
 });
 
 function interpretCode(code) {
-    const response = responseTypes[parseInt(code.substring(0, 1), 16)] || "";
-    const action = actionTypes[parseInt(code.substring(1, 2), 16)] || "";
-    const category = categories[parseInt(code.substring(2, 3), 16)] || "";
-    const entityTypeCode = parseInt(code.substring(3), 16);
-    const entity = entityTypes[entityTypeCode] || "";
+    const responseCode = parseInt(code.substring(0, 1), 16);
+    const entityCode = parseInt(code.substring(1, 3), 16);
+    const categoryCode = parseInt(code.substring(3, 4), 16);
+    const actionCode = parseInt(code.substring(4, 5), 16);
 
-    return [response, entity, category, action]
+    const response = responseTypes[responseCode] || "";
+    const entity = entityTypes[entityCode] || "";
+    const category = categories[categoryCode] || "";
+    const action = actionTypes[actionCode] || "";
+
+    return [action, category, entity, response]
         .filter(part => part) // 빈 문자열 제외
         .join('_');
 }
