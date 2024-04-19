@@ -1,0 +1,8 @@
+{
+    "1": "RETRIEVE", "2": "CREATE", "3": "UPDATE", "4": "DELETE",
+    "5": "PROCESS", "6": "VALIDATE", "7": "REGISTER", "8": "GET", "9": "UNKNOWN",
+    "A": "LOGIN", "B": "RESET", "C": "SET", "D": "GENERATE", "E": "ADD",
+    "F": "ENCODE", "G": "DECODE", "H": "CANCEL", "I": "FIND", "J": "VERIFY",
+    "K": "ACCEPT", "L": "DECLINE", "M": "EXPIRE", "N": "SEARCH", "O": "ACTIVATE",
+    "P": "DEACTIVATE", "Q": "SAVE", "R": "COMMON", "S": "AUTHORIZE"
+}
