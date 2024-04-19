@@ -1,57 +1,40 @@
-const responseTypes = {
-    "1": "REQUIRED", "2": "SUCCESS", "3": "ALREADY_EXISTS", "4": "NOT_FOUND",
-    "5": "INVALID", "6": "DENIED", "7": "FAILED", "8": "OCCURRED", "9": "DUPLICATED",
-    "A": "DIFFERENT", "B": "CANT"
-};
+let responseType, actionType, categorie, entityType;
 
-const actionTypes = {
-    "1": "RETRIEVE", "2": "CREATE", "3": "UPDATE", "4": "DELETE",
-    "5": "PROCESS", "6": "VALIDATE", "7": "REGISTER", "8": "GET", "9": "UNKNOWN",
-    "A": "LOGIN", "B": "RESET", "C": "SET", "D": "GENERATE", "E": "ADD",
-    "F": "ENCODE", "G": "DECODE", "H": "CANCEL", "I": "FIND", "J": "VERIFY",
-    "K": "ACCEPT", "L": "DECLINE", "M": "EXPIRE", "N": "SEARCH", "O": "ACTIVATE",
-    "P": "DEACTIVATE", "Q": "SAVE", "R": "COMMON", "S": "AUTHORIZE"
-};
-
-const categories = {
-    "1": "USER", "2": "GROUP", "3": "AUTH", "4": "CLIENT", "5": "SERVER",
-    "6": "FIREBASE", "7": "JWT", "8": "ENUM"
-};
-
-const entityTypes = {
-    "10": "INFO", "11": "SCHEDULE", "12": "FOOTPRINT", "13": "POSEESTIMATION", "14": "AVATAR",
-    "15": "ROLE", "16": "HISTORY", "17": "PARAMETER", "18": "VALIDATION", "19": "AUTHORIZATION",
-    "20": "REQUEST", "21": "RECORD", "22": "ID", "23": "PASSWORD", "24": "CHECKLIST",
-    "25": "INVITATION", "26": "DISEASES", "27": "TOKEN", "28": "RESPONSE", "29": "EXCEPTION",
-    "30": "ACCOUNT", "31": "PROFILE", "32": "MEMBER", "33": "LEADER", "34": "EMAIL",
-    "35": "PHONE_NUMBER", "36": "PERMISSIONS", "37": "RECOVERY", "38": "CAPACITY",
-    "39": "COUNT", "40": "TICKET", "41": "NOTICE", "42": "HEX_DATA"
-};
-
-document.getElementById('codeForm').addEventListener('submit', function(event) {
+document.getElementById('codeForm').addEventListener('submit', async function(event) {
     event.preventDefault();
+    if (!responseType || !actionType || !categorie || !entityType) {
+        await loadData();
+    }
     const inputCode = document.getElementById('codeInput').value;
     const result = interpretCode(inputCode);
     document.getElementById('result').textContent = result;
 });
 
+async function loadData() {
+    const response = await Promise.all([
+        fetch('responseType.json').then(res => res.json()),
+        fetch('actionType.json').then(res => res.json()),
+        fetch('categorie.json').then(res => res.json()),
+        fetch('entityType.json').then(res => res.json())
+    ]);
+    responseType = response[0];
+    actionType = response[1];
+    categorie = response[2];
+    entityType = response[3];
+}
+
 function interpretCode(code) {
-    // 코드를 직접 문자열로 처리
     const responseCode = code.substring(0, 1);
     const entityCode = code.substring(1, 3);
     const categoryCode = code.substring(3, 4);
     const actionCode = code.substring(4, 5);
 
-    const response = responseTypes[responseCode] || "";
-    const entity = entityTypes[entityCode] || "";
-    const category = categories[categoryCode] || "";
-    const action = actionTypes[actionCode] || "";
+    const response = responseType[responseCode] || "";
+    const entity = entityType[entityCode] || "";
+    const category = categorie[categoryCode] || "";
+    const action = actionType[actionCode] || "";
 
     return [action, category, entity, response]
-        .filter(part => part) // 빈 문자열 제외
+        .filter(part => part)
         .join('_');
 }
-
-
-
-
