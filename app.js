@@ -14,7 +14,7 @@ async function loadData() {
     const response = await Promise.all([
         fetch('responseType.json').then(res => res.json()),
         fetch('actionType.json').then(res => res.json()),
-        fetch('categorie.json').then(res => res.json()),
+        fetch('category.json').then(res => res.json()),
         fetch('entityType.json').then(res => res.json())
     ]);
     responseType = response[0];
