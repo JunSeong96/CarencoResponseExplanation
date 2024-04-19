@@ -30,7 +30,10 @@ document.getElementById('codeForm').addEventListener('submit', function(event) {
 function interpretCode(code) {
     const response = responseTypes[parseInt(code.substring(0, 1))];
     const action = actionTypes[parseInt(code.substring(1, 2))];
-    const category = categories[parseInt(code.substring(2, 3))] || "0";
-    const entity = entityTypes[parseInt(code.substring(3))] || "00";
-    return [response, action, category, entity].filter(Boolean).join('_');
+    const category = categories[parseInt(code.substring(2, 3))];
+    const entity = entityTypes[parseInt(code.substring(3))];
+
+    return [response, action, category, entity]
+        .filter(part => part && part !== "0" && part !== "00") // Filters out "0" or "00" entries
+        .join('_');
 }
