@@ -1,8 +1,8 @@
-let responseType, actionType, categorie, entityType;
+let responseType, actionType, category, entityType;
 
 document.getElementById('codeForm').addEventListener('submit', async function(event) {
     event.preventDefault();
-    if (!responseType || !actionType || !categorie || !entityType) {
+    if (!responseType || !actionType || !category || !entityType) {
         await loadData();
     }
     const inputCode = document.getElementById('codeInput').value;
@@ -19,7 +19,7 @@ async function loadData() {
     ]);
     responseType = response[0];
     actionType = response[1];
-    categorie = response[2];
+    category = response[2];
     entityType = response[3];
 }
 
@@ -31,7 +31,7 @@ function interpretCode(code) {
 
     const response = responseType[responseCode] || "";
     const entity = entityType[entityCode] || "";
-    const category = categorie[categoryCode] || "";
+    const category = category[categoryCode] || "";
     const action = actionType[actionCode] || "";
 
     return [action, category, entity, response]
