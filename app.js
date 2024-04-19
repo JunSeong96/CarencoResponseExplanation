@@ -50,3 +50,5 @@ function interpretCode(code) {
         .filter(part => part) // 빈 문자열 제외
         .join('_');
 }
+
+
