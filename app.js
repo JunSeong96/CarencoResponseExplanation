@@ -17,14 +17,14 @@ async function loadData() {
         fetch('category.json').then(res => res.json()),
         fetch('entityType.json').then(res => res.json())
     ]);
-    
     responseType = response[0];
     actionType = response[1];
     category = response[2];
     entityType = response[3];
 }
+
+
 function interpretCode(code) {
-    
     const responseCode = code.substring(0, 1);
     const entityCode = code.substring(1, 3);
     const categoryCode = code.substring(3, 4);
