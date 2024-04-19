@@ -1,30 +1,31 @@
 const responseTypes = {
     "1": "REQUIRED", "2": "SUCCESS", "3": "ALREADY_EXISTS", "4": "NOT_FOUND",
     "5": "INVALID", "6": "DENIED", "7": "FAILED", "8": "OCCURRED", "9": "DUPLICATED",
-    "A": "DIFFERENT"
+    "A": "DIFFERENT", "B": "CANT"
 };
 
 const actionTypes = {
     "1": "RETRIEVE", "2": "CREATE", "3": "UPDATE", "4": "DELETE",
-    "5": "PROCESS", "6": "VALIDATE", "7": "REGISTER", "8": "GET", "9": "NOTICE",
-    "A": "UNKNOWN", "B": "LOGIN", "C": "RESET", "D": "SET", "E": "GENERATE",
-    "F": "ADD", "G": "ENCODE", "H": "DECODE", "I": "CANCEL", "J": "FIND",
-    "K": "VERIFY", "L": "ACCEPT", "M": "DECLINE", "N": "EXPIRE", "O": "SEARCH"
+    "5": "PROCESS", "6": "VALIDATE", "7": "REGISTER", "8": "GET", "9": "UNKNOWN",
+    "A": "LOGIN", "B": "RESET", "C": "SET", "D": "GENERATE", "E": "ADD",
+    "F": "ENCODE", "G": "DECODE", "H": "CANCEL", "I": "FIND", "J": "VERIFY",
+    "K": "ACCEPT", "L": "DECLINE", "M": "EXPIRE", "N": "SEARCH", "O": "ACTIVATE",
+    "P": "DEACTIVATE", "Q": "SAVE", "R": "COMMON", "S": "AUTHORIZE"
 };
 
 const categories = {
     "1": "USER", "2": "GROUP", "3": "AUTH", "4": "CLIENT", "5": "SERVER",
-    "6": "FIREBASE", "7": "JWT"
+    "6": "FIREBASE", "7": "JWT", "8": "ENUM"
 };
 
 const entityTypes = {
-    "10": "INFO", "11": "SCHEDULE", "12": "FOOTPRINTS", "13": "POSEESTIMATION", "14": "AVATAR",
+    "10": "INFO", "11": "SCHEDULE", "12": "FOOTPRINT", "13": "POSEESTIMATION", "14": "AVATAR",
     "15": "ROLE", "16": "HISTORY", "17": "PARAMETER", "18": "VALIDATION", "19": "AUTHORIZATION",
     "20": "REQUEST", "21": "RECORD", "22": "ID", "23": "PASSWORD", "24": "CHECKLIST",
     "25": "INVITATION", "26": "DISEASES", "27": "TOKEN", "28": "RESPONSE", "29": "EXCEPTION",
     "30": "ACCOUNT", "31": "PROFILE", "32": "MEMBER", "33": "LEADER", "34": "EMAIL",
     "35": "PHONE_NUMBER", "36": "PERMISSIONS", "37": "RECOVERY", "38": "CAPACITY",
-    "39": "COUNT", "40": "TICKET"
+    "39": "COUNT", "40": "TICKET", "41": "NOTICE", "42": "HEX_DATA"
 };
 
 document.getElementById('codeForm').addEventListener('submit', function(event) {
