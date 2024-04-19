@@ -38,4 +38,3 @@ function interpretCode(code) {
         .filter(part => part)
         .join('_');
 }
-
