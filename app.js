@@ -35,10 +35,11 @@ document.getElementById('codeForm').addEventListener('submit', function(event) {
 });
 
 function interpretCode(code) {
+    // 각 부분의 코드 길이와 위치를 정확히 지정
     const responseCode = parseInt(code.substring(0, 1), 16);
-    const entityCode = parseInt(code.substring(1, 3), 16);
-    const categoryCode = parseInt(code.substring(3, 4), 16);
-    const actionCode = parseInt(code.substring(4, 5), 16);
+    const entityCode = parseInt(code.substring(1, 4), 16); // 엔티티 코드는 3자리 수로 처리
+    const categoryCode = parseInt(code.substring(4, 5), 16);
+    const actionCode = parseInt(code.substring(5, 6), 16); // 액션 코드 위치 조정
 
     const response = responseTypes[responseCode] || "";
     const entity = entityTypes[entityCode] || "";
