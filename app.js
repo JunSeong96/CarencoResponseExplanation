@@ -1,5 +1,10 @@
 let responseTypes, actionTypes, categories, entityTypes;
 
+// 뒤집힌 데이터 객체 생성
+const reversedActionTypes = reverseObject(actionTypes);
+const reversedCategories = reverseObject(categories);
+const reversedEntityTypes = reverseObject(entityTypes);
+const reversedResponseTypes = reverseObject(responseTypes);
 // 페이지 로드 시 데이터 로드
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
@@ -103,11 +108,6 @@ function reverseObject(obj) {
     }, {});
 }
 
-// 뒤집힌 데이터 객체 생성
-const reversedActionTypes = reverseObject(actionTypes);
-const reversedCategories = reverseObject(categories);
-const reversedEntityTypes = reverseObject(entityTypes);
-const reversedResponseTypes = reverseObject(responseTypes);
 
 // 수정된 findCode 함수
 function findCode(value) {
