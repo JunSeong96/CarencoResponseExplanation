@@ -10,15 +10,14 @@ document.getElementById('codeForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const inputCode = document.getElementById('codeInput').value;
     const result = interpretCode(inputCode);
-    document.getElementById('result').textContent = result;
+    document.getElementById('codeResult').textContent = result; // ID가 codeResult인 요소로 변경
 });
 
-// 설명을 코드로 변환하는 폼 처리
 document.getElementById('descriptionForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const description = document.getElementById('descriptionInput').value;
     const result = getDescriptionToCode(description);
-    document.getElementById('descriptionResult').textContent = `${result.code}: ${result.description}`;
+    document.getElementById('descriptionResult').textContent = `${result.code}: ${result.description}`; // ID가 descriptionResult인 요소로 변경
 });
 
 // 데이터 로드 함수
