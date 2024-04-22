@@ -20,12 +20,6 @@ document.getElementById('descriptionForm').addEventListener('submit', function(e
     document.getElementById('descriptionResult').textContent = `${result.code}: ${result.description}`; // ID가 descriptionResult인 요소로 변경
 });
 
-// 뒤집힌 데이터 객체 생성
-const reversedActionTypes = reverseObject(actionTypes);
-const reversedCategories = reverseObject(categories);
-const reversedEntityTypes = reverseObject(entityTypes);
-const reversedResponseTypes = reverseObject(responseTypes);
-
 // 데이터 로드 함수
 async function loadData() {
     try {
@@ -44,6 +38,12 @@ async function loadData() {
         console.error("Failed to load data: ", error);
     }
 }
+
+// 뒤집힌 데이터 객체 생성
+const reversedActionTypes = reverseObject(actionTypes);
+const reversedCategories = reverseObject(categories);
+const reversedEntityTypes = reverseObject(entityTypes);
+const reversedResponseTypes = reverseObject(responseTypes);
 
 function interpretCode(code) {
     if (code.length !== 5) return "Invalid code length.";
