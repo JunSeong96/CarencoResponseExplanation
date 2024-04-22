@@ -72,6 +72,8 @@ function interpretCode(code) {
     return parts.length ? parts.join('_') : "No valid parts found.";
 }
 
+
+
 function getDescriptionToCode(description) {
     const parts = description.split('_');
     let actionCode = '';
@@ -85,34 +87,32 @@ function getDescriptionToCode(description) {
         let code = findCode(part);
 
         if (!code && i + 1 < parts.length) {
-            console.log(`No code found for '${part}', trying to combine with next part.`);
-            part += '_' + parts[i + 1];
+            part = parts[i] + '_' + parts[i + 1]; // 다음 파트와 결합
             code = findCode(part);
             if (code) {
-                console.log(`Found code for combined part '${part}': ${code}`);
-                i++; // Only increment if we used the next part
+                i++; // 결합된 파트 사용
             } else {
-                console.log(`No code found for combined part '${part}', returning error.`);
                 return { code: "52080", description: "INVALID_ENUM_REQUEST" };
             }
         }
 
         if (!code) {
-            console.log(`No code found for '${part}', returning error.`);
             return { code: "52080", description: "INVALID_ENUM_REQUEST" };
         }
 
-        // Determine the type of the code and store it in the correct variable
-        if (responseTypes[part]) responseCode = code;
-        else if (entityTypes[part]) entityCode = code;
-        else if (categories[part]) categoryCode = code;
-        else if (actionTypes[part]) actionCode = code;
+        // 코드를 올바른 변수에 할당
+        if (reversedActionTypes[part]) actionCode = code;
+        else if (reversedCategories[part]) categoryCode = code;
+        else if (reversedEntityTypes[part]) entityCode = code;
+        else if (reversedResponseTypes[part]) responseCode = code;
     }
 
     const result = responseCode + entityCode + categoryCode + actionCode;
     console.log(`Final code: ${result}`);
     return { code: result, description: description };
 }
+
+
 
 // 코드 찾기 헬퍼 함수
 function findCode(value) {
