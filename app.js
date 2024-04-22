@@ -79,5 +79,13 @@ function getDescriptionToCode(description) {
 
 // 코드 찾기 헬퍼 함수
 function findCode(part) {
-    return actionTypes[part] || categories[part] || entityTypes[part] || responseTypes[part] || null;
+    const code = actionTypes[part] || categories[part] || entityTypes[part] || responseTypes[part] || null;
+
+    if (code) {
+        console.log(`Found code for '${part}': ${code}`);
+    } else {
+        console.log(`No code found for '${part}'.`);
+    }
+
+    return code;
 }
