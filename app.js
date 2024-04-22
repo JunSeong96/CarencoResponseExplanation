@@ -1,9 +1,12 @@
 let responseTypes, actionTypes, categories, entityTypes;
+let reversedActionTypes, reversedCategories, reversedEntityTypes, reversedResponseTypes;
 
 // 페이지 로드 시 데이터 로드
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
 });
+
+
 
 // 코드를 설명으로 변환하는 폼 처리
 document.getElementById('codeForm').addEventListener('submit', function(event) {
@@ -20,7 +23,7 @@ document.getElementById('descriptionForm').addEventListener('submit', function(e
     document.getElementById('descriptionResult').textContent = `${result.code}: ${result.description}`; // ID가 descriptionResult인 요소로 변경
 });
 
-// 데이터 로드 함수
+
 async function loadData() {
     try {
         const responses = await Promise.all([
@@ -33,11 +36,19 @@ async function loadData() {
         actionTypes = responses[1];
         categories = responses[2];
         entityTypes = responses[3];
-        console.log("Data loaded successfully.");
+
+        // 데이터 로드 후 객체를 뒤집어 생성
+        reversedActionTypes = reverseObject(actionTypes);
+        reversedCategories = reverseObject(categories);
+        reversedEntityTypes = reverseObject(entityTypes);
+        reversedResponseTypes = reverseObject(responseTypes);
+
+        console.log("Data loaded and reversed objects created successfully.");
     } catch (error) {
         console.error("Failed to load data: ", error);
     }
 }
+
 
 // 뒤집힌 데이터 객체 생성
 const reversedActionTypes = reverseObject(actionTypes);
