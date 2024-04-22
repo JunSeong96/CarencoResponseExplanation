@@ -56,8 +56,6 @@ function interpretCode(code) {
     return parts.length ? parts.join('_') : "No valid parts found.";
 }
 
-
-
 function getDescriptionToCode(description) {
     const parts = description.split('_');
     let result = '';
@@ -66,44 +64,44 @@ function getDescriptionToCode(description) {
     while (i < parts.length) {
         let part = parts[i];
         let code = findCode(part);
-        let combined = false;
 
         // 현재 파트가 매핑되지 않았고, 다음 파트와 결합할 수 있는 경우
-        while (!code && i + 1 < parts.length) {
+        if (!code && i + 1 < parts.length) {
             part += '_' + parts[i + 1];
             code = findCode(part);
-            i++;
-            combined = true;  // 결합이 이루어졌음을 표시
-        }
-
-        // 결합된 후에도 코드를 찾지 못했다면, 에러 처리
-        if (!code) {
+            if (code) {
+                // 결합된 부분이 성공적으로 매핑된 경우, 다음 부분을 건너뜁니다.
+                i++;
+            } else {
+                // 결합 후에도 코드를 찾지 못했다면, 에러 처리
+                return { code: "52080", description: "INVALID_ENUM_REQUEST" };
+            }
+        } else if (!code) {
             return { code: "52080", description: "INVALID_ENUM_REQUEST" };
         }
 
         result += code;
-        // 결합이 이루어진 경우 i가 이미 증가되었으므로 추가 증가를 방지
-        if (!combined) {
-            i++;
-        }
+        i++;
     }
 
     return { code: result, description: description };
 }
-
-function findCode(part) {
-    return actionTypes[part] || categories[part] || entityTypes[part] || responseTypes[part] || null;
+// 코드 찾기 헬퍼 함수
+// 데이터 구조를 뒤집는 함수
+function reverseObject(obj) {
+    return Object.keys(obj).reduce((acc, key) => {
+        acc[obj[key]] = key;
+        return acc;
+    }, {});
 }
 
-// 코드 찾기 헬퍼 함수
-function findCode(part) {
-    const code = actionTypes[part] || categories[part] || entityTypes[part] || responseTypes[part] || null;
+// 뒤집힌 데이터 객체 생성
+const reversedActionTypes = reverseObject(actionTypes);
+const reversedCategories = reverseObject(categories);
+const reversedEntityTypes = reverseObject(entityTypes);
+const reversedResponseTypes = reverseObject(responseTypes);
 
-    if (code) {
-        console.log(`Found code for '${part}': ${code}`);
-    } else {
-        console.log(`No code found for '${part}'.`);
-    }
-
-    return code;
+// 수정된 findCode 함수
+function findCode(value) {
+    return reversedActionTypes[value] || reversedCategories[value] || reversedEntityTypes[value] || reversedResponseTypes[value] || null;
 }
