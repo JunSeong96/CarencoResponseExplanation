@@ -23,62 +23,59 @@ document.getElementById('descriptionForm').addEventListener('submit', function(e
 
 // 데이터 로드 함수
 async function loadData() {
-    const response = await Promise.all([
-        fetch('responseTypes.json').then(res => res.json()),
-        fetch('actionTypes.json').then(res => res.json()),
-        fetch('categories.json').then(res => res.json()),
-        fetch('entityTypes.json').then(res => res.json())
-    ]);
-    responseTypes = response[0];
-    actionTypes = response[1];
-    categories = response[2];
-    entityTypes = response[3];
+    try {
+        const responses = await Promise.all([
+            fetch('responseTypes.json').then(res => res.json()),
+            fetch('actionTypes.json').then(res => res.json()),
+            fetch('categories.json').then(res => res.json()),
+            fetch('entityTypes.json').then(res => res.json())
+        ]);
+        responseTypes = responses[0];
+        actionTypes = responses[1];
+        categories = responses[2];
+        entityTypes = responses[3];
+        console.log("Data loaded successfully.");
+    } catch (error) {
+        console.error("Failed to load data: ", error);
+    }
 }
 
-// 코드를 설명으로 변환하는 함수
 function interpretCode(code) {
+    if (code.length !== 5) return "Invalid code length.";
+
     const responseCode = code.substring(0, 1);
     const entityCode = code.substring(1, 3);
     const categoryCode = code.substring(3, 4);
     const actionCode = code.substring(4, 5);
 
-    const response = responseTypes[responseCode] || "Unknown";
-    const entity = entityTypes[entityCode] || "Unknown";
-    const category = categories[categoryCode] || "Unknown";
-    const action = actionTypes[actionCode] || "Unknown";
+    const response = responseTypes[responseCode] || "";
+    const entity = entityTypes[entityCode] || "";
+    const category = categories[categoryCode] || "";
+    const action = actionTypes[actionCode] || "";
 
-    return [action, category, entity, response]
-        .filter(part => part !== "Unknown")
-        .join('_');
+    const parts = [action, category, entity, response].filter(part => part);
+    return parts.length ? parts.join('_') : "No valid parts found.";
 }
 
-// 설명을 코드로 변환하는 함수
+
 function getDescriptionToCode(description) {
     const parts = description.split('_');
-    let result = '';
-    let i = 0;
+    let codes = {
+        action: "",
+        category: "",
+        entity: "",
+        response: ""
+    };
 
-    while (i < parts.length) {
-        let part = parts[i];
-        let code = findCode(part);
+    parts.forEach(part => {
+        if (actionTypes[part]) codes.action = actionTypes[part];
+        else if (categories[part]) codes.category = categories[part];
+        else if (entityTypes[part]) codes.entity = entityTypes[part];
+        else if (responseTypes[part]) codes.response = responseTypes[part];
+    });
 
-        if (!code && i + 1 < parts.length) {
-            part += '_' + parts[i + 1];
-            code = findCode(part);
-            if (code) {
-                i++;
-            }
-        }
-
-        if (!code) {
-            return { code: "52080", description: "INVALID_ENUM_REQUEST" };
-        }
-
-        result += code;
-        i++;
-    }
-
-    return { code: result, description: description };
+    const result = codes.response + codes.entity + codes.category + codes.action;
+    return result ? { code: result, description: description } : { code: "52080", description: "INVALID_ENUM_REQUEST" };
 }
 
 // 코드 찾기 헬퍼 함수
