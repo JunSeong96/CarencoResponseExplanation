@@ -67,14 +67,15 @@ function interpretCode(code) {
 }
 
 
-
 function getDescriptionToCode(description) {
     const parts = description.split('_');
-    let result = '';
-    let i = 0;
+    let actionCode = '';
+    let categoryCode = '';
+    let entityCode = '';
+    let responseCode = '';
 
     console.log(`Processing description: ${description}`);
-    while (i < parts.length) {
+    for (let i = 0; i < parts.length; i++) {
         let part = parts[i];
         let code = findCode(part);
 
@@ -89,30 +90,24 @@ function getDescriptionToCode(description) {
                 console.log(`No code found for combined part '${part}', returning error.`);
                 return { code: "52080", description: "INVALID_ENUM_REQUEST" };
             }
-        } else if (!code) {
+        }
+
+        if (!code) {
             console.log(`No code found for '${part}', returning error.`);
             return { code: "52080", description: "INVALID_ENUM_REQUEST" };
         }
 
-        result += code;
-        console.log(`Current result: ${result}`);
-        i++;
+        // Determine the type of the code and store it in the correct variable
+        if (responseTypes[part]) responseCode = code;
+        else if (entityTypes[part]) entityCode = code;
+        else if (categories[part]) categoryCode = code;
+        else if (actionTypes[part]) actionCode = code;
     }
 
+    const result = responseCode + entityCode + categoryCode + actionCode;
     console.log(`Final code: ${result}`);
     return { code: result, description: description };
 }
-
-
-// 코드 찾기 헬퍼 함수
-// 데이터 구조를 뒤집는 함수
-function reverseObject(obj) {
-    return Object.keys(obj).reduce((acc, key) => {
-        acc[obj[key]] = key;
-        return acc;
-    }, {});
-}
-
 
 // 수정된 findCode 함수
 function findCode(value) {
