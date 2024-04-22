@@ -57,24 +57,42 @@ function interpretCode(code) {
 }
 
 
+
 function getDescriptionToCode(description) {
     const parts = description.split('_');
-    let codes = {
-        action: "",
-        category: "",
-        entity: "",
-        response: ""
-    };
+    let result = '';
+    let i = 0;
 
-    parts.forEach(part => {
-        if (actionTypes[part]) codes.action = actionTypes[part];
-        else if (categories[part]) codes.category = categories[part];
-        else if (entityTypes[part]) codes.entity = entityTypes[part];
-        else if (responseTypes[part]) codes.response = responseTypes[part];
-    });
+    while (i < parts.length) {
+        let part = parts[i];
+        let code = findCode(part);
+        let combined = false;
 
-    const result = codes.response + codes.entity + codes.category + codes.action;
-    return result ? { code: result, description: description } : { code: "52080", description: "INVALID_ENUM_REQUEST" };
+        // 현재 파트가 매핑되지 않았고, 다음 파트와 결합할 수 있는 경우
+        while (!code && i + 1 < parts.length) {
+            part += '_' + parts[i + 1];
+            code = findCode(part);
+            i++;
+            combined = true;  // 결합이 이루어졌음을 표시
+        }
+
+        // 결합된 후에도 코드를 찾지 못했다면, 에러 처리
+        if (!code) {
+            return { code: "52080", description: "INVALID_ENUM_REQUEST" };
+        }
+
+        result += code;
+        // 결합이 이루어진 경우 i가 이미 증가되었으므로 추가 증가를 방지
+        if (!combined) {
+            i++;
+        }
+    }
+
+    return { code: result, description: description };
+}
+
+function findCode(part) {
+    return actionTypes[part] || categories[part] || entityTypes[part] || responseTypes[part] || null;
 }
 
 // 코드 찾기 헬퍼 함수
