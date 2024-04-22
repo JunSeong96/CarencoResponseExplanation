@@ -56,36 +56,44 @@ function interpretCode(code) {
     return parts.length ? parts.join('_') : "No valid parts found.";
 }
 
+
+
 function getDescriptionToCode(description) {
     const parts = description.split('_');
     let result = '';
     let i = 0;
 
+    console.log(`Processing description: ${description}`);
     while (i < parts.length) {
         let part = parts[i];
         let code = findCode(part);
 
-        // 현재 파트가 매핑되지 않았고, 다음 파트와 결합할 수 있는 경우
         if (!code && i + 1 < parts.length) {
+            console.log(`No code found for '${part}', trying to combine with next part.`);
             part += '_' + parts[i + 1];
             code = findCode(part);
             if (code) {
-                // 결합된 부분이 성공적으로 매핑된 경우, 다음 부분을 건너뜁니다.
-                i++;
+                console.log(`Found code for combined part '${part}': ${code}`);
+                i++; // Only increment if we used the next part
             } else {
-                // 결합 후에도 코드를 찾지 못했다면, 에러 처리
+                console.log(`No code found for combined part '${part}', returning error.`);
                 return { code: "52080", description: "INVALID_ENUM_REQUEST" };
             }
         } else if (!code) {
+            console.log(`No code found for '${part}', returning error.`);
             return { code: "52080", description: "INVALID_ENUM_REQUEST" };
         }
 
         result += code;
+        console.log(`Current result: ${result}`);
         i++;
     }
 
+    console.log(`Final code: ${result}`);
     return { code: result, description: description };
 }
+
+
 // 코드 찾기 헬퍼 함수
 // 데이터 구조를 뒤집는 함수
 function reverseObject(obj) {
@@ -103,5 +111,13 @@ const reversedResponseTypes = reverseObject(responseTypes);
 
 // 수정된 findCode 함수
 function findCode(value) {
-    return reversedActionTypes[value] || reversedCategories[value] || reversedEntityTypes[value] || reversedResponseTypes[value] || null;
+    const code = reversedActionTypes[value] || reversedCategories[value] || reversedEntityTypes[value] || reversedResponseTypes[value] || null;
+
+    if (code) {
+        console.log(`Found key for '${value}': ${code}`);
+    } else {
+        console.log(`No key found for '${value}'.`);
+    }
+
+    return code;
 }
