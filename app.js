@@ -6,24 +6,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
 });
 
-
-
-// 코드를 설명으로 변환하는 폼 처리
-document.getElementById('codeForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const inputCode = document.getElementById('codeInput').value;
-    const result = interpretCode(inputCode);
-    document.getElementById('codeResult').textContent = result; // ID가 codeResult인 요소로 변경
-});
-
-document.getElementById('descriptionForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const description = document.getElementById('descriptionInput').value;
-    const result = getDescriptionToCode(description);
-    document.getElementById('descriptionResult').textContent = `${result.code}: ${result.description}`; // ID가 descriptionResult인 요소로 변경
-});
-
-
 async function loadData() {
     try {
         const responses = await Promise.all([
@@ -48,6 +30,32 @@ async function loadData() {
         console.error("Failed to load data: ", error);
     }
 }
+
+// 데이터 구조를 뒤집는 함수
+function reverseObject(obj) {
+    return Object.keys(obj).reduce((acc, key) => {
+        acc[obj[key]] = key;
+        return acc;
+    }, {});
+}
+
+
+// 코드를 설명으로 변환하는 폼 처리
+document.getElementById('codeForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const inputCode = document.getElementById('codeInput').value;
+    const result = interpretCode(inputCode);
+    document.getElementById('codeResult').textContent = result; // ID가 codeResult인 요소로 변경
+});
+
+document.getElementById('descriptionForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const description = document.getElementById('descriptionInput').value;
+    const result = getDescriptionToCode(description);
+    document.getElementById('descriptionResult').textContent = `${result.code}: ${result.description}`; // ID가 descriptionResult인 요소로 변경
+});
+
+
 
 function interpretCode(code) {
     if (code.length !== 5) return "Invalid code length.";
