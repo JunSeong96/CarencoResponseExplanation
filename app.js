@@ -49,13 +49,6 @@ async function loadData() {
     }
 }
 
-
-// 뒤집힌 데이터 객체 생성
-const reversedActionTypes = reverseObject(actionTypes);
-const reversedCategories = reverseObject(categories);
-const reversedEntityTypes = reverseObject(entityTypes);
-const reversedResponseTypes = reverseObject(responseTypes);
-
 function interpretCode(code) {
     if (code.length !== 5) return "Invalid code length.";
 
