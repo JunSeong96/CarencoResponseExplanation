@@ -39,23 +39,21 @@ function reverseObject(obj) {
     }, {});
 }
 
-
 // 코드를 설명으로 변환하는 폼 처리
 document.getElementById('codeForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const inputCode = document.getElementById('codeInput').value;
     const result = interpretCode(inputCode);
-    document.getElementById('codeResult').textContent = result; // ID가 codeResult인 요소로 변경
+    document.getElementById('codeResult').textContent = result;
 });
 
+// 설명을 코드로 변환하는 폼 처리
 document.getElementById('descriptionForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const description = document.getElementById('descriptionInput').value;
     const result = getDescriptionToCode(description);
-    document.getElementById('descriptionResult').textContent = `${result.code}: ${result.description}`; // ID가 descriptionResult인 요소로 변경
+    document.getElementById('descriptionResult').textContent = `${result.code}: ${result.description}`;
 });
-
-
 
 function interpretCode(code) {
     if (code.length !== 5) return "Invalid code length.";
@@ -73,7 +71,6 @@ function interpretCode(code) {
     const parts = [action, category, entity, response].filter(part => part);
     return parts.length ? parts.join('_') : "No valid parts found.";
 }
-
 
 function getDescriptionToCode(description) {
     const parts = description.split('_');
@@ -117,7 +114,7 @@ function getDescriptionToCode(description) {
     return { code: result, description: description };
 }
 
-// 수정된 findCode 함수
+// 코드 찾기 헬퍼 함수
 function findCode(value) {
     const code = reversedActionTypes[value] || reversedCategories[value] || reversedEntityTypes[value] || reversedResponseTypes[value] || null;
 
