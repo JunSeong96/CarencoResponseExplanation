@@ -1,10 +1,5 @@
 let responseTypes, actionTypes, categories, entityTypes;
 
-// 뒤집힌 데이터 객체 생성
-const reversedActionTypes = reverseObject(actionTypes);
-const reversedCategories = reverseObject(categories);
-const reversedEntityTypes = reverseObject(entityTypes);
-const reversedResponseTypes = reverseObject(responseTypes);
 // 페이지 로드 시 데이터 로드
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
@@ -24,6 +19,12 @@ document.getElementById('descriptionForm').addEventListener('submit', function(e
     const result = getDescriptionToCode(description);
     document.getElementById('descriptionResult').textContent = `${result.code}: ${result.description}`; // ID가 descriptionResult인 요소로 변경
 });
+
+// 뒤집힌 데이터 객체 생성
+const reversedActionTypes = reverseObject(actionTypes);
+const reversedCategories = reverseObject(categories);
+const reversedEntityTypes = reverseObject(entityTypes);
+const reversedResponseTypes = reverseObject(responseTypes);
 
 // 데이터 로드 함수
 async function loadData() {
