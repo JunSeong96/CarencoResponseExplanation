@@ -72,14 +72,19 @@ function interpretCode(code) {
     return parts.length ? parts.join('_') : "No valid parts found.";
 }
 
-
-
 function getDescriptionToCode(description) {
     const parts = description.split('_');
-    let actionCode = '0';
-    let categoryCode = '0';
-    let entityCode = '00';
-    let responseCode = '0';
+    let actionCode = '';
+    let categoryCode = '';
+    let entityCode = '';
+    let responseCode = '';
+
+    let usedTypes = {
+        action: false,
+        category: false,
+        entity: false,
+        response: false
+    };
 
     console.log(`Processing description: ${description}`);
     for (let i = 0; i < parts.length; i++) {
@@ -87,30 +92,85 @@ function getDescriptionToCode(description) {
         let code = findCode(part);
 
         if (!code && i + 1 < parts.length) {
+            console.log(`No code found for '${part}', trying to combine with next part.`);
             part = parts[i] + '_' + parts[i + 1]; // 다음 파트와 결합
             code = findCode(part);
             if (code) {
+                console.log(`Found code for combined part '${part}': ${code}`);
                 i++; // 결합된 파트 사용
             } else {
+                console.log(`No code found for combined part '${part}', returning error.`);
                 return { code: "52080", description: "INVALID_ENUM_REQUEST" };
             }
         }
 
         if (!code) {
+            console.log(`No code found for '${part}', returning error.`);
             return { code: "52080", description: "INVALID_ENUM_REQUEST" };
         }
 
-        // 코드를 올바른 변수에 할당
-        if (reversedActionTypes[part]) actionCode = code;
-        else if (reversedCategories[part]) categoryCode = code;
-        else if (reversedEntityTypes[part]) entityCode = code;
-        else if (reversedResponseTypes[part]) responseCode = code;
+        // 코드를 올바른 변수에 할당 전 중복 검사
+        if (reversedActionTypes[part]) {
+            if (usedTypes.action) return { code: "Error", description: "Duplicate action type detected." };
+            actionCode = code;
+            usedTypes.action = true;
+        } else if (reversedCategories[part]) {
+            if (usedTypes.category) return { code: "Error", description: "Duplicate category type detected." };
+            categoryCode = code;
+            usedTypes.category = true;
+        } else if (reversedEntityTypes[part]) {
+            if (usedTypes.entity) return { code: "Error", description: "Duplicate entity type detected." };
+            entityCode = code;
+            usedTypes.entity = true;
+        } else if (reversedResponseTypes[part]) {
+            if (usedTypes.response) return { code: "Error", description: "Duplicate response type detected." };
+            responseCode = code;
+            usedTypes.response = true;
+        }
     }
 
     const result = responseCode + entityCode + categoryCode + actionCode;
     console.log(`Final code: ${result}`);
     return { code: result, description: description };
 }
+
+// function getDescriptionToCode(description) {
+//     const parts = description.split('_');
+//     let actionCode = '0';
+//     let categoryCode = '0';
+//     let entityCode = '00';
+//     let responseCode = '0';
+
+//     console.log(`Processing description: ${description}`);
+//     for (let i = 0; i < parts.length; i++) {
+//         let part = parts[i];
+//         let code = findCode(part);
+
+//         if (!code && i + 1 < parts.length) {
+//             part = parts[i] + '_' + parts[i + 1]; // 다음 파트와 결합
+//             code = findCode(part);
+//             if (code) {
+//                 i++; // 결합된 파트 사용
+//             } else {
+//                 return { code: "52080", description: "INVALID_ENUM_REQUEST" };
+//             }
+//         }
+
+//         if (!code) {
+//             return { code: "52080", description: "INVALID_ENUM_REQUEST" };
+//         }
+
+//         // 코드를 올바른 변수에 할당
+//         if (reversedActionTypes[part]) actionCode = code;
+//         else if (reversedCategories[part]) categoryCode = code;
+//         else if (reversedEntityTypes[part]) entityCode = code;
+//         else if (reversedResponseTypes[part]) responseCode = code;
+//     }
+
+//     const result = responseCode + entityCode + categoryCode + actionCode;
+//     console.log(`Final code: ${result}`);
+//     return { code: result, description: description };
+// }
 
 
 
