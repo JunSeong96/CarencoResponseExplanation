@@ -74,10 +74,10 @@ function interpretCode(code) {
 
 function getDescriptionToCode(description) {
     const parts = description.split('_');
-    let actionCode = '';
-    let categoryCode = '';
-    let entityCode = '';
-    let responseCode = '';
+    let actionCode = '0';
+    let categoryCode = '0';
+    let entityCode = '00';
+    let responseCode = '0';
 
     let usedTypes = {
         action: false,
