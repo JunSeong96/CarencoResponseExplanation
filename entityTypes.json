@@ -5,5 +5,5 @@
     "25": "INVITATION", "26": "DISEASES", "27": "TOKEN", "28": "RESPONSE", "29": "EXCEPTION",
     "30": "ACCOUNT", "31": "PROFILE", "32": "MEMBER", "33": "LEADER", "34": "EMAIL",
     "35": "PHONE_NUMBER", "36": "PERMISSIONS", "37": "RECOVERY", "38": "CAPACITY",
-    "39": "COUNT", "40": "TICKET", "41": "NOTICE", "42": "HEX_DATA"
+    "39": "COUNT", "40": "TICKET", "41": "NOTICE", "42": "HEX_DATA", "43": "INSTANCE", "44": "DATA"
 }
