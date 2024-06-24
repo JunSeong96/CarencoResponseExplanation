@@ -1,4 +1,4 @@
 {
     "1": "USER", "2": "GROUP", "3": "AUTH", "4": "CLIENT", "5": "SERVER",
-    "6": "FIREBASE", "7": "JWT", "8": "ENUM"
+    "6": "FIREBASE", "7": "JWT", "8": "ENUM", "9": "FCM"
 }
