@@ -4,5 +4,5 @@
     "A": "LOGIN", "B": "RESET", "C": "SET", "D": "GENERATE", "E": "ADD",
     "F": "ENCODE", "G": "DECODE", "H": "CANCEL", "I": "FIND", "J": "VERIFY",
     "K": "ACCEPT", "L": "DECLINE", "M": "EXPIRE", "N": "SEARCH", "O": "ACTIVATE",
-    "P": "DEACTIVATE", "Q": "SAVE", "R": "COMMON", "S": "AUTHORIZE"
+    "P": "DEACTIVATE", "Q": "SAVE", "R": "COMMON", "S": "AUTHORIZE", "T": "SEND"
 }
